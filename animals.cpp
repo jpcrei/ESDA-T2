@@ -444,16 +444,50 @@ int TreeBST::import(const string filename)
 priority_queue<string,vector<string>, greater<string>>* TreeBST::createDictionary(NodeAnimal* root)
 {
     /* Função 24 */
+    priority_queue<string, vector<string>, greater<string>>* dicionario = new priority_queue<string, vector<string>, greater<string>>();
+
+    stack<NodeAnimal*> s; 
+    NodeAnimal* current = root;
+    while (current != nullptr || !s.empty()) {
+        if (current != nullptr) {
+            s.push(current);
+            current = current->left;
+        } else {
+            current = s.top();
+            s.pop();
+            dicionario->push(current->getScientificName());
+            current = current->right;
+        }
+    }
+
+    return dicionario;
     
-
-
-
-
 }
 
 int TreeBST::positionDictionary(string scientificName)
 {
-    /* Função 25 */   
+    /* Função 25 */ 
+    priority_queue<string, vector<string>, greater<string>>* dictionary = createDictionary(root);
+    int position = 1;
+    bool found = false;
+    
+    while (!dictionary->empty()) {
+        string animal = dictionary->top();
+        dictionary->pop();        
+        if (animal == scientificName) {
+            found = true;
+            break;
+        }        
+        position++;
+    }
+    
+    delete dictionary;    
+    if (found){
+        return position;
+    } 
+    else {
+        return 0;
+    }
 }
 
 int TreeBST::updateCharacteristicsFromFile(DecisionTree &treeB, const string filename)
