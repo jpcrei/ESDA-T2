@@ -306,6 +306,30 @@ int TreeBST::size()
 vector<NodeAnimal*> TreeBST::searchCharacteristic(NodeAnimal* root, string charac)
 {
     /* Função 22 */
+    
+    vector<NodeAnimal*> result;
+
+    if (root == NULL) {
+        return result;
+    }
+    
+    if (charac.empty()) {
+        return result;
+    }
+    
+    int tam=(int)root->getCharacteristics().size();
+    for (int i=0; i<tam; i++){
+        if (root->getCharacteristics()[i]==charac){
+            result.push_back(root);
+        }
+    }
+    
+    searchCharacteristic(root->left, charac);
+    searchCharacteristic(root->right, charac);
+
+    return result;
+
+
 }
 
 vector<NodeAnimal*> TreeBST::searchCharacteristic(string charac)
@@ -325,6 +349,26 @@ vector<NodeAnimal*> TreeBST::searchCharacteristic(string charac)
 int TreeBST::commonCharacteristic(NodeAnimal* root, string charac1, string charac2)
 {
     /* Função 23 */
+
+    if (root == nullptr) {
+        return 0;
+    }
+
+    if (charac1.empty() || charac2.empty()) {
+        return -1;
+    }
+
+    int count = 0;
+
+    if (find(root->getCharacteristics().begin(), root->getCharacteristics().end(), charac1)!=root->getCharacteristics().end() && find(root->getCharacteristics().begin(), root->getCharacteristics().end(), charac2)!=root->getCharacteristics().end()){
+        count++;
+    }
+
+    count += commonCharacteristic(root->left, charac1, charac2);
+    count += commonCharacteristic(root->right, charac1, charac2);
+
+    return count;
+
 }
 
 int TreeBST::commonCharacteristic(string charac1, string charac2)
@@ -400,6 +444,11 @@ int TreeBST::import(const string filename)
 priority_queue<string,vector<string>, greater<string>>* TreeBST::createDictionary(NodeAnimal* root)
 {
     /* Função 24 */
+    
+
+
+
+
 }
 
 int TreeBST::positionDictionary(string scientificName)
